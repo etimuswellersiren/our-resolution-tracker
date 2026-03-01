@@ -18,28 +18,64 @@ function checkPin() {
 // Make sure loadEntries() doesn't run automatically on page load anymore
 // window.onload = loadEntries; <-- Remove or comment this out if it exists
 
-const form = document.getElementById('resolutionForm');
-
-form.addEventListener('submit', async (e) => {
+// 1. Wife submits just the issue
+document.getElementById('issueForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const entry = {
         issue: document.getElementById('issue').value,
-        steps: document.getElementById('steps').value,
-        futurePlan: document.getElementById('futurePlan').value,
-        date: new Date().toLocaleDateString()
+        steps: "", // Empty for now
+        futurePlan: "", // Empty for now
+        date: new Date().toLocaleDateString(),
+        status: "Pending Response"
     };
 
-    // Send data to the server
     await fetch('/api/resolutions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry)
     });
 
-    form.reset();
+    document.getElementById('issueForm').reset();
     loadEntries();
 });
+
+// 2. Function to open the response box
+function openResponseBox(index) {
+    document.getElementById('editingIndex').value = index;
+    document.getElementById('responseModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('responseModal').style.display = 'none';
+}
+
+// 3. Husband saves the response
+async function saveResponse() {
+    const index = document.getElementById('editingIndex').value;
+    const steps = document.getElementById('modalSteps').value;
+    const future = document.getElementById('modalFuture').value;
+
+    // Get all current data first
+    const res = await fetch('/api/resolutions');
+    const history = await res.json();
+
+    // Update the specific entry
+    history[index].steps = steps;
+    history[index].futurePlan = future;
+    history[index].status = "Resolved";
+
+    // Save the whole list back to the server (We'll need a PUT route in server.js)
+    await fetch('/api/resolutions/update-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(history)
+    });
+
+    closeModal();
+    loadEntries();
+}
+
+
 
 async function loadEntries() {
     const response = await fetch('/api/resolutions');
@@ -104,63 +140,6 @@ function filterEntries() {
             card.style.display = "none";
         }
     });
-}
-
-// 1. Wife submits just the issue
-document.getElementById('issueForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const entry = {
-        issue: document.getElementById('issue').value,
-        steps: "", // Empty for now
-        futurePlan: "", // Empty for now
-        date: new Date().toLocaleDateString(),
-        status: "Pending Response"
-    };
-
-    await fetch('/api/resolutions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(entry)
-    });
-
-    document.getElementById('issueForm').reset();
-    loadEntries();
-});
-
-// 2. Function to open the response box
-function openResponseBox(index) {
-    document.getElementById('editingIndex').value = index;
-    document.getElementById('responseModal').style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('responseModal').style.display = 'none';
-}
-
-// 3. Husband saves the response
-async function saveResponse() {
-    const index = document.getElementById('editingIndex').value;
-    const steps = document.getElementById('modalSteps').value;
-    const future = document.getElementById('modalFuture').value;
-
-    // Get all current data first
-    const res = await fetch('/api/resolutions');
-    const history = await res.json();
-
-    // Update the specific entry
-    history[index].steps = steps;
-    history[index].futurePlan = future;
-    history[index].status = "Resolved";
-
-    // Save the whole list back to the server (We'll need a PUT route in server.js)
-    await fetch('/api/resolutions/update-all', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(history)
-    });
-
-    closeModal();
-    loadEntries();
 }
 
 
