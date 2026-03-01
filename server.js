@@ -47,18 +47,18 @@ const nodemailer = require('nodemailer');
 
 // 1. Create the transporter logic
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 587,
-  secure: false, // Must be false for port 587
-  requireTLS: true, // Forces an encrypted connection
+  secure: false, // Must be false for Port 587
+  requireTLS: true, // Forces Nodemailer to use STARTTLS
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
   },
-  // Increase timeout settings for cloud environments
-  connectionTimeout: 10000, // 10 seconds
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+  // Increase timeouts to account for cold starts on Render
+  connectionTimeout: 15000, // 15 seconds
+  greetingTimeout: 15000,
+  socketTimeout: 15000,
 });
 
 // Test the connection immediately on startup
