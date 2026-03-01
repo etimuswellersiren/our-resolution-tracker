@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Resolution Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Resolution Tracker</h1>
+            <p>A space for growth and solutions.</p>
+        </header>
+
+        <section class="form-section">
+            <form id="resolutionForm">
+                <div class="input-group">
+                    <label for="issue">The Concern/Complaint</label>
+                    <textarea id="issue" placeholder="What is on your mind?" required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="steps">Immediate Steps for Resolution</label>
+                    <textarea id="steps" placeholder="What can we do right now?" required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="futurePlan">Future Growth Plan</label>
+                    <textarea id="futurePlan" placeholder="How do we prevent this or grow from it?" required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn">Log Resolution</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section id="entriesList">
+            <h2>Our Journey</h2>
+            </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
