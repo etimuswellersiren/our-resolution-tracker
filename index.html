@@ -8,6 +8,15 @@
 </head>
 <body>
 
+<div id="pinOverlay" class="overlay">
+    <div class="pin-box">
+        <h2>Enter Access Code</h2>
+        <input type="password" id="pinInput" maxlength="4" placeholder="****" inputmode="numeric">
+        <button onclick="checkPin()">Enter</button>
+        <p id="pinError" style="color: red; display: none;">Incorrect Code</p>
+    </div>
+</div>
+
     <div class="container">
         <header>
             <h1>Resolution Tracker</h1>

@@ -1,3 +1,22 @@
+const SECRET_PIN = "1221"; // Set your secret code here!
+
+function checkPin() {
+    const input = document.getElementById('pinInput').value;
+    const error = document.getElementById('pinError');
+    const overlay = document.getElementById('pinOverlay');
+
+    if (input === SECRET_PIN) {
+        overlay.style.display = 'none'; // Hide the gatekeeper
+        loadEntries(); // Now load the data
+    } else {
+        error.style.display = 'block';
+        document.getElementById('pinInput').value = '';
+    }
+}
+
+// Make sure loadEntries() doesn't run automatically on page load anymore
+// window.onload = loadEntries; <-- Remove or comment this out if it exists
+
 const form = document.getElementById('resolutionForm');
 
 form.addEventListener('submit', async (e) => {
@@ -41,3 +60,5 @@ async function loadEntries() {
 }
 
 loadEntries();
+
+
