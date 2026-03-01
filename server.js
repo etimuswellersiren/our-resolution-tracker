@@ -45,19 +45,46 @@ app.post('/api/resolutions/update-all', (req, res) => {
 
 const nodemailer = require('nodemailer');
 
+// 1. Create the transporter logic
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        // This looks at the "Environment Variables" you set on Render
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS  
-    }
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // Use SSL
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD, // NOT your login password
+  },
 });
+
+// 2. Verification function to debug Render logs
+const verifyConnection = async () => {
+  try {
+    await transporter.verify();
+    console.log("Server is ready to take our messages");
+  } catch (error) {
+    console.error("Nodemailer verification failed:", error);
+  }
+};
+
+verifyConnection();
+
+// 3. Example Send Function
+const sendNotification = async (subject, text) => {
+  const mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: process.env.RECIPIENT_EMAIL,
+    subject: subject,
+    text: text,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
 
 // Function to notify the other person
 async function sendUpdateEmail(toEmail, subject, text) {
     await transporter.sendMail({
-        from: '"Relationship Tracker" <your-app-email@gmail.com>',
+        from: '"Relationship Tracker" <sirenresolutions@gmail.com>',
         to: toEmail,
         subject: subject,
         text: text
@@ -72,7 +99,7 @@ app.post('/api/resolutions', async (req, res) => {
 
     // Notify Husband
     await sendUpdateEmail(
-        'husband-email@gmail.com', 
+        'etimusweller@gmail.com', 
         'New Issue Logged', 
         `Your wife just logged an issue: "${req.body.issue}". Visit the app to respond.`
     );
