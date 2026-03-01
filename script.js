@@ -12,6 +12,7 @@ function checkPin() {
         error.style.display = 'block';
         document.getElementById('pinInput').value = '';
     }
+    loadEntries();
 }
 
 // Make sure loadEntries() doesn't run automatically on page load anymore
@@ -91,6 +92,6 @@ function filterEntries() {
     });
 }
 
-loadEntries();
+
 
 
