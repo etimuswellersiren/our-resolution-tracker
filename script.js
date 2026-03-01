@@ -46,17 +46,32 @@ async function loadEntries() {
     const list = document.getElementById('entriesList');
     
     list.innerHTML = '<h2>Our Journey</h2>';
-    history.reverse().forEach(entry => {
+    
+    // We use a regular for loop or forEach with index to track which one to delete
+    history.forEach((entry, index) => {
         const card = document.createElement('div');
         card.className = 'resolution-card';
         card.innerHTML = `
-            <small>${entry.date}</small>
+            <div style="display: flex; justify-content: space-between;">
+                <small>${entry.date}</small>
+                <button onclick="deleteEntry(${index})" class="delete-btn">×</button>
+            </div>
             <h3>Issue: ${entry.issue}</h3>
             <p><strong>Steps:</strong> ${entry.steps}</p>
             <p><strong>Plan:</strong> ${entry.futurePlan}</p>
         `;
-        list.appendChild(card);
+        // We prepend so the newest stays at the top, but the index stays correct
+        list.insertBefore(card, list.firstChild.nextSibling); 
     });
+}
+
+async function deleteEntry(index) {
+    if (confirm("Are you sure you want to remove this resolution?")) {
+        await fetch(`/api/resolutions/${index}`, {
+            method: 'DELETE'
+        });
+        loadEntries(); // Refresh the list
+    }
 }
 
 loadEntries();

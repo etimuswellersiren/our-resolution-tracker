@@ -99,3 +99,24 @@ button:hover {
     border: 2px solid #ddd;
     border-radius: 8px;
 }
+
+.delete-btn {
+    background: #ffeded;
+    color: #e74c3c;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+}

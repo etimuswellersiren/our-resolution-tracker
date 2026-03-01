@@ -20,6 +20,20 @@ app.post('/api/resolutions', (req, res) => {
     res.status(201).send('Saved successfully');
 });
 
+// Route to delete a specific resolution by index
+app.delete('/api/resolutions/:index', (req, res) => {
+    const index = parseInt(req.params.index);
+    let history = JSON.parse(fs.readFileSync('data.json', 'utf8') || '[]');
+    
+    if (index >= 0 && index < history.length) {
+        history.splice(index, 1); // Remove the item
+        fs.writeFileSync('data.json', JSON.stringify(history, null, 2));
+        res.status(200).send('Deleted successfully');
+    } else {
+        res.status(404).send('Entry not found');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
