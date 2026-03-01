@@ -80,6 +80,29 @@ const verifyConnection = async () => {
   }
 };
 
+app.get('/test-email', async (req, res) => {
+  console.log("--- Starting Email Test ---");
+  
+  const mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: process.env.GMAIL_USER, // Send it to yourself for the test
+    subject: "Render Server Test ✅",
+    text: `Test successful! Sent at: ${new Date().toISOString()}`,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("✅ Email sent successfully:", info.response);
+    res.status(200).send(`<h1>Success!</h1><p>Email sent: ${info.response}</p>`);
+  } catch (error) {
+    console.error("❌ Test Route Failed:", error);
+    res.status(500).send(`<h1>Failed</h1><pre>${error.message}</pre>`);
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 verifyConnection();
 
 // 3. Example Send Function
