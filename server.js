@@ -47,14 +47,24 @@ const nodemailer = require('nodemailer');
 
 // 1. Create the transporter logic
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
   host: 'smtp.gmail.com',
   port: 465,
-  secure: true, // Use SSL
+  secure: true, // Use SSL for port 465
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD, // NOT your login password
+    pass: process.env.GMAIL_APP_PASSWORD,
   },
+  debug: true, // Show debug output in logs
+  logger: true  // Log the SMTP traffic
+});
+
+// Test the connection immediately on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("❌ Connection Error Detail:", error);
+  } else {
+    console.log("✅ Server is ready to send messages!");
+  }
 });
 
 // 2. Verification function to debug Render logs
