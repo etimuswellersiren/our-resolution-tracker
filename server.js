@@ -37,3 +37,8 @@ app.delete('/api/resolutions/:index', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
+app.post('/api/resolutions/update-all', (req, res) => {
+    fs.writeFileSync('data.json', JSON.stringify(req.body, null, 2));
+    res.status(200).send('Updated');
+});

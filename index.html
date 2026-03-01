@@ -24,25 +24,31 @@
         </header>
 
         <section class="form-section">
-            <form id="resolutionForm">
-                <div class="input-group">
-                    <label for="issue">The Concern/Complaint</label>
-                    <textarea id="issue" placeholder="What is on your mind?" required></textarea>
-                </div>
+    <form id="issueForm">
+        <div class="input-group">
+            <label for="issue">The Concern (Wife's Entry)</label>
+            <textarea id="issue" placeholder="What is on your mind?" required></textarea>
+        </div>
+        <button type="submit">Send to Spouse</button>
+    </form>
+</section>
 
-                <div class="input-group">
-                    <label for="steps">Immediate Steps for Resolution</label>
-                    <textarea id="steps" placeholder="What can we do right now?" required></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label for="futurePlan">Future Growth Plan</label>
-                    <textarea id="futurePlan" placeholder="How do we prevent this or grow from it?" required></textarea>
-                </div>
-
-                <button type="submit" id="submitBtn">Log Resolution</button>
-            </form>
-        </section>
+<div id="responseModal" class="overlay" style="display:none;">
+    <div class="pin-box" style="width: 80%; max-width: 500px;">
+        <h3>Add Your Resolution</h3>
+        <div class="input-group">
+            <label>Immediate Steps</label>
+            <textarea id="modalSteps" placeholder="What can we do now?"></textarea>
+        </div>
+        <div class="input-group">
+            <label>Future Growth Plan</label>
+            <textarea id="modalFuture" placeholder="How do we grow?"></textarea>
+        </div>
+        <input type="hidden" id="editingIndex">
+        <button onclick="saveResponse()">Save Resolution</button>
+        <button onclick="closeModal()" style="background:#ccc; margin-top:5px;">Cancel</button>
+    </div>
+</div>
 
         <hr>
 
