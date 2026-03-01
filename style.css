@@ -120,3 +120,23 @@ button:hover {
     background: #e74c3c;
     color: white;
 }
+
+.search-container {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+#searchInput:focus {
+    border-color: #5cb85c;
+    outline: none;
+}

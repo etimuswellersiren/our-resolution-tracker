@@ -74,6 +74,23 @@ async function deleteEntry(index) {
     }
 }
 
+function filterEntries() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.getElementsByClassName('resolution-card');
+
+    // Loop through every card in the list
+    Array.from(cards).forEach(card => {
+        const text = card.innerText.toLowerCase();
+        
+        // If the search term is found in the card's text, show it; otherwise, hide it
+        if (text.includes(searchTerm)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
 loadEntries();
 
 
